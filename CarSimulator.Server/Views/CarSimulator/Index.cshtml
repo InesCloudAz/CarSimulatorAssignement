@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Car Simulator";
+}
+@model SimulationViewModel
+
+<div class="text-center">
+    @if (!Model.IsRunning)
+    {
+
+        <h1 class="display-4">Car Simulator</h1>
+
+        <div class="status-card">
+
+            <p> Your Driver: @Model.Driver.Title. @Model.Driver.First @Model.Driver.Last </p>
+            <p> City: @Model.Driver.City </p>
+            <p> Country: @Model.Driver.Country</p>
+
+
+            <p class="status-message">Do you want to start? </p>
+
+
+        </div>
+
+        <form asp-action="Index" method="post">
+            <input type="hidden" asp-for="Driver.First" />
+            <input type="hidden" asp-for="Driver.Last" />
+            <input type="hidden" asp-for="IsRunning" value="true"/>
+            <button type="submit" class="btn">Start Simulation</button>
+        </form>
+
+
+    }
+
+    else
+    {
+        <div class="status-card">
+            <h2>Status</h2>
+            <ul>
+                <li>Driver: @Model.Driver.First @Model.Driver.Last</li>
+                <li>Direction: @Model.CurrentStatus.CardinalDirection</li>
+                <li>Gas: @Model.CurrentStatus.GasValue</li>
+                <li>Energy: @Model.CurrentStatus.EnergyValue</li>
+            </ul>
+
+            @if (Model.DriverStatusMessage != null || !string.IsNullOrEmpty(Model.DriverStatusMessage))
+            {
+                <p class="status-message-warning">
+                    @Model.DriverStatusMessage
+                    @if (Model.CurrentStatus.EnergyValue == 0)
+                    {
+                        <img src="../warning.png" alt="Warning" style="width:1em;vertical-align:middle;" />
+                    }
+                </p>
+
+            }
+            @if (Model.CarStatusMessage != null || !string.IsNullOrEmpty(Model.CarStatusMessage))
+            {
+
+                <p class="status-message-warning">
+                    @Model.CarStatusMessage
+
+                    @if (Model.CurrentStatus.GasValue == 0)
+                    {
+                        <img src="../warning.png" alt="Warning" style="width:1em;vertical-align:middle;" />
+                    }
+                </p>
+
+            }
+            <p class="status-message">@Model.CurrentActionMessage</p>
+        </div>
+
+
+
+
+
+        <div class="selection">
+
+            <form asp-action="Index" method="post">
+                <label for="SelectedAction">Select an action:</label>
+                <select asp-for="SelectedAction" class="form-select" required>
+                    <option value="">-- Choose an option --</option>
+                    <option value="1">Turn left</option>
+                    <option value="2">Turn right</option>
+                    <option value="3">Drive forward</option>
+                    <option value="4">Reverse</option>
+                    <option value="5">Take a rest</option>
+                    <option value="6">Refuel the car</option>
+                    <option value="7">Exit</option>
+                </select>
+                <br />
+
+                <input type="hidden" asp-for="Car.CardinalDirection" />
+                <input type="hidden" asp-for="Car.GasValue" />
+                <input type="hidden" asp-for="IsRunning" />
+                <input type="hidden" asp-for="CurrentStatus.MovementAction" />
+                <input type="hidden" asp-for="CurrentStatus.CardinalDirection" />
+                <input type="hidden" asp-for="CurrentStatus.EnergyValue" />
+                <input type="hidden" asp-for="CurrentStatus.GasValue" />
+                <input type="hidden" asp-for="Driver.First" />
+                <input type="hidden" asp-for="Driver.Last" />
+
+
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+    }
+
+
+
+</div>
