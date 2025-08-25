@@ -11,7 +11,7 @@ namespace DataLogicLibrary.DirectionStrategies
 {
     public class DirectionContext : IDirectionContext
     {
-        private IDirectionStrategy _strategy;
+        private IDirectionStrategy? _strategy;
 
         public void SetStrategy(IDirectionStrategy strategy)
         {
@@ -20,6 +20,8 @@ namespace DataLogicLibrary.DirectionStrategies
 
         public StatusDTO ExecuteStrategy(StatusDTO currentStatus)
         {
+            if (_strategy == null)
+                throw new InvalidOperationException("Ingen strategi har satts. Anropa SetStrategy() först.");
             return _strategy.Execute(currentStatus);
         }
 

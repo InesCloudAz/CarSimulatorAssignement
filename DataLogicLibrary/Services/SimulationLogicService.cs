@@ -29,72 +29,91 @@ namespace DataLogicLibrary.Services
         private readonly IDirectionStrategy _turnRightStrategy;
         private readonly IDirectionStrategy _driveForwardStrategy;
         private readonly IDirectionStrategy _reverseStrategy;
-        
 
+        private const int MaxEnergy = 20;
+        private const int MaxGas = 20;
+        private const int MaxHunger = 16;   // VG-del: spel över om hunger >= 16
 
         public StatusDTO PerformAction(int userInput, StatusDTO currentStatus)
         {
-            if (userInput == 6)
-                return currentStatus;
-
             switch (userInput)
             {
-                case 1:
+                case 1: // vänster
                     _directionContext.SetStrategy(_turnLeftStrategy);
                     break;
 
-                case 2:
+                case 2: // höger
                     _directionContext.SetStrategy(_turnRightStrategy);
                     break;
 
-                case 3:
+                case 3: // framåt
                     _directionContext.SetStrategy(_driveForwardStrategy);
                     break;
 
-                case 4:
+                case 4: // backa
                     _directionContext.SetStrategy(_reverseStrategy);
                     break;
 
-                case 5:
-                    currentStatus.EnergyValue = 20;
-                    return currentStatus;
-                case 6:
-                    currentStatus.GasValue = 20;
+                case 5: // rasta
+                    currentStatus.EnergyValue = MaxEnergy;
                     return currentStatus;
 
+                case 6: // tanka
+                    currentStatus.GasValue = MaxGas;
+                    return currentStatus;
+
+                case 8: // Äta (VG-krav)
+                    currentStatus.HungerValue = 0;
+                    return currentStatus;
+
+                case 7: // avsluta
+                    return currentStatus;
+
+                default:
+                    return currentStatus;
             }
 
-            currentStatus = _directionContext.ExecuteStrategy(currentStatus);
-            return currentStatus;
-
+            return _directionContext.ExecuteStrategy(currentStatus);
         }
 
         public StatusDTO DecreaseStatusValues(int userInput, StatusDTO currentStatus)
         {
-
             Random random = new Random();
-            int energyDecrease = random.Next(1, 6);
-            int gasDecrease = random.Next(1, 6);
 
+            // minska trötthet (1-5)
+            int energyDecrease = random.Next(1, 6);
             currentStatus.EnergyValue -= energyDecrease;
 
-            var driverIsRestingValue = 5;
-
-            if (userInput != driverIsRestingValue)
+            // bensin minskar bara om man inte rastar
+            if (userInput != 5)
+            {
+                int gasDecrease = random.Next(1, 6);
                 currentStatus.GasValue -= gasDecrease;
+            }
 
+            // hunger ökar alltid när man gör något, utom när man äter
+            if (userInput != 8)
+                currentStatus.HungerValue += 2;
+
+            // clamp values så de inte går under 0
             if (currentStatus.EnergyValue < 0)
                 currentStatus.EnergyValue = 0;
 
             if (currentStatus.GasValue < 0)
                 currentStatus.GasValue = 0;
 
+            if (currentStatus.HungerValue > MaxHunger)
+                currentStatus.HungerValue = MaxHunger;
+
             return currentStatus;
-
         }
-
- 
-
-
     }
 }
+
+
+
+
+
+
+
+

@@ -40,9 +40,10 @@
                 <li>Direction: @Model.CurrentStatus.CardinalDirection</li>
                 <li>Gas: @Model.CurrentStatus.GasValue</li>
                 <li>Energy: @Model.CurrentStatus.EnergyValue</li>
+                <li>Hunger: @Model.CurrentStatus.HungerValue</li>
             </ul>
 
-            @if (Model.DriverStatusMessage != null || !string.IsNullOrEmpty(Model.DriverStatusMessage))
+            @if (!string.IsNullOrEmpty(Model.DriverStatusMessage))
             {
                 <p class="status-message-warning">
                     @Model.DriverStatusMessage
@@ -53,7 +54,7 @@
                 </p>
 
             }
-            @if (Model.CarStatusMessage != null || !string.IsNullOrEmpty(Model.CarStatusMessage))
+            @if (!string.IsNullOrEmpty(Model.CarStatusMessage))
             {
 
                 <p class="status-message-warning">
@@ -66,45 +67,79 @@
                 </p>
 
             }
-            <p class="status-message">@Model.CurrentActionMessage</p>
-        </div>
+
+            @if (!string.IsNullOrEmpty(Model.HungerStatusMessage))
+            {
+                <p class="status-message-warning">
+                    @Model.HungerStatusMessage
+                    @if (Model.CurrentStatus.HungerValue >= 16)
+                    {
+                        <img src="../warning.png" alt="Warning" style="width:1em;vertical-align:middle;" />
+                    }
+                </p>
+            }
+
+            @if (Model.IsGameOver)
+            {
+                <div class="status-card">
+                    <h2>Game Over</h2>
+                    <p class="status-message-warning">@Model.GameOverMessage</p>
+                </div>
+
+                <form asp-action="Index" method="post">
+                    <input type="hidden" asp-for="IsRunning" value="false" />
+                    <button type="submit" class="btn btn-danger">Restart Simulation</button>
+                </form>
+            }
+            else
+            {
+                <div class="selection">
+
+                    <form asp-action="Index" method="post">
+                        <label for="SelectedAction">Select an action:</label>
+                        <select asp-for="SelectedAction" class="form-select" required>
+                            <option value="">-- Choose an option --</option>
+                            <option value="1">Turn left</option>
+                            <option value="2">Turn right</option>
+                            <option value="3">Drive forward</option>
+                            <option value="4">Reverse</option>
+                            <option value="5">Take a rest</option>
+                            <option value="6">Refuel the car</option>
+                            <option value="7">Exit</option>
+                            <option value="8">Eat food</option>
+
+                        </select>
+                        <br />
+
+                        <input type="hidden" asp-for="Car.CardinalDirection" />
+                        <input type="hidden" asp-for="Car.GasValue" />
+                        <input type="hidden" asp-for="IsRunning" />
+                        <input type="hidden" asp-for="CurrentStatus.MovementAction" />
+                        <input type="hidden" asp-for="CurrentStatus.CardinalDirection" />
+                        <input type="hidden" asp-for="CurrentStatus.EnergyValue" />
+                        <input type="hidden" asp-for="CurrentStatus.GasValue" />
+                        <input type="hidden" asp-for="Driver.First" />
+                        <input type="hidden" asp-for="Driver.Last" />
+                        <input type="hidden" asp-for="CurrentStatus.HungerValue" />
 
 
 
-
-
-        <div class="selection">
-
-            <form asp-action="Index" method="post">
-                <label for="SelectedAction">Select an action:</label>
-                <select asp-for="SelectedAction" class="form-select" required>
-                    <option value="">-- Choose an option --</option>
-                    <option value="1">Turn left</option>
-                    <option value="2">Turn right</option>
-                    <option value="3">Drive forward</option>
-                    <option value="4">Reverse</option>
-                    <option value="5">Take a rest</option>
-                    <option value="6">Refuel the car</option>
-                    <option value="7">Exit</option>
-                </select>
-                <br />
-
-                <input type="hidden" asp-for="Car.CardinalDirection" />
-                <input type="hidden" asp-for="Car.GasValue" />
-                <input type="hidden" asp-for="IsRunning" />
-                <input type="hidden" asp-for="CurrentStatus.MovementAction" />
-                <input type="hidden" asp-for="CurrentStatus.CardinalDirection" />
-                <input type="hidden" asp-for="CurrentStatus.EnergyValue" />
-                <input type="hidden" asp-for="CurrentStatus.GasValue" />
-                <input type="hidden" asp-for="Driver.First" />
-                <input type="hidden" asp-for="Driver.Last" />
-
-
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            }
+            
         </div>
     }
-
-
-
 </div>
+        
+
+
+            
+
+
+
+
+
+        
+   

@@ -11,6 +11,8 @@ namespace DataLogicLibrary.Services.Interfaces
         string? GetCurrentActionMessage(int userInput, int gasValue, string driverName);
         string? GetDriverStatusMessage(int value, string driverName);
         string? GetCarStatusMessage(int value);
+        string? GetHungerStatusMessage(int value, string first);
+
 
 
     }

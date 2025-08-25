@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServiceLibrary", "APISer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSimulator.Server", "CarSimulator.Server\CarSimulator.Server.csproj", "{02850447-C7EE-48D4-95E2-0C12BBF894E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSimulator.Tests", "CarSimulator.Tests\CarSimulator.Tests.csproj", "{145DEBB2-C284-411F-947D-9709871034B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{02850447-C7EE-48D4-95E2-0C12BBF894E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02850447-C7EE-48D4-95E2-0C12BBF894E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02850447-C7EE-48D4-95E2-0C12BBF894E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{145DEBB2-C284-411F-947D-9709871034B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{145DEBB2-C284-411F-947D-9709871034B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{145DEBB2-C284-411F-947D-9709871034B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{145DEBB2-C284-411F-947D-9709871034B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

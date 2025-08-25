@@ -12,6 +12,7 @@ namespace DataLogicLibrary.DTO
         public CardinalDirection CardinalDirection { get; set; }
         public MovementAction MovementAction { get; set; }
         public int GasValue { get; set; }
+        public int HungerValue { get; set; }
         public int EnergyValue { get; set; }
 
     }

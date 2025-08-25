@@ -54,5 +54,23 @@ namespace DataLogicLibrary.Services
 
             return null;
         }
+
+        public string? GetHungerStatusMessage(int hungerValue, string driverName)
+        {
+            if (hungerValue <= 5)
+                return $"{driverName} is full and happy.";
+
+            if (hungerValue <= 10)
+                return $"{driverName} is getting hungry.";
+
+            if (hungerValue <= 15)
+                return $"{driverName} is starving!";
+
+            if (hungerValue >= 16)
+                return $"{driverName} collapsed from hunger! GAME OVER!";
+
+            return null;
+        }
+
     }
 }

@@ -21,6 +21,11 @@ namespace CarSimulator.Server.Models.ViewModels
         public string DriverStatusMessage { get; set; }
 
         public string CurrentActionMessage { get; set; }
+        public string? HungerStatusMessage { get; set; }
+        public bool IsGameOver { get; set; }
+        public string? GameOverMessage { get; set; }
+
+
 
 
 

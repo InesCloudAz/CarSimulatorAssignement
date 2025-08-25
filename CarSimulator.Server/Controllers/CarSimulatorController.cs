@@ -47,21 +47,31 @@ namespace CarSimulator.Server.Controllers
 
             if (viewModel.IsRunning)
             {
-                if (viewModel.Car != null)
-                {
-                    viewModel.CurrentStatus = _simulationLogicService.DecreaseStatusValues(viewModel.SelectedAction, viewModel.CurrentStatus);
-                    viewModel.CurrentStatus = _simulationLogicService.PerformAction(viewModel.SelectedAction, viewModel.CurrentStatus);
-                }
-
-                else
+                
+                if (viewModel.Car == null || viewModel.CurrentStatus == null)
                 {
                     viewModel.Car = _carFactory.CreateCar();
                     viewModel.CurrentStatus = _statusFactory.CreateStatus();
                 }
 
+                viewModel.CurrentStatus = _simulationLogicService.DecreaseStatusValues(viewModel.SelectedAction, viewModel.CurrentStatus);
+                viewModel.CurrentStatus = _simulationLogicService.PerformAction(viewModel.SelectedAction, viewModel.CurrentStatus);
+
+                if (viewModel.CurrentStatus.EnergyValue == 0)
+                {
+                    viewModel.IsGameOver = true;
+                    viewModel.GameOverMessage = $"{viewModel.Driver.First} has fallen asleep at the wheel! GAME OVER!";
+                }
+                else if (viewModel.CurrentStatus.HungerValue >= 16)
+                {
+                    viewModel.IsGameOver = true;
+                    viewModel.GameOverMessage = $"{viewModel.Driver.First} collapsed from hunger! GAME OVER!";
+                }
+
                 viewModel.CurrentActionMessage = _statusMessageService.GetCurrentActionMessage(viewModel.SelectedAction, viewModel.CurrentStatus.GasValue, viewModel.Driver.First)!;
                 viewModel.DriverStatusMessage = _statusMessageService.GetDriverStatusMessage(viewModel.CurrentStatus.EnergyValue, viewModel.Driver.First)!;
                 viewModel.CarStatusMessage = _statusMessageService.GetCarStatusMessage(viewModel.CurrentStatus.GasValue)!;
+                viewModel.HungerStatusMessage = _statusMessageService.GetHungerStatusMessage(viewModel.CurrentStatus.HungerValue, viewModel.Driver.First)!;
             }
 
             ModelState.Clear();
