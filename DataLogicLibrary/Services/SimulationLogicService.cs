@@ -36,37 +36,46 @@ namespace DataLogicLibrary.Services
 
         public StatusDTO PerformAction(int userInput, StatusDTO currentStatus)
         {
+
+            // Om man försöker köra (1-4) men bensinen är slut
+            if ((userInput == 1 || userInput == 2 || userInput == 3 || userInput == 4)
+                && currentStatus.GasValue == 0)
+            {
+                // Bilen kan inte köra, returnera status oförändrad
+                return currentStatus;
+            }
+
             switch (userInput)
             {
-                case 1: // vänster
+                case 1: 
                     _directionContext.SetStrategy(_turnLeftStrategy);
                     break;
 
-                case 2: // höger
+                case 2: 
                     _directionContext.SetStrategy(_turnRightStrategy);
                     break;
 
-                case 3: // framåt
+                case 3: 
                     _directionContext.SetStrategy(_driveForwardStrategy);
                     break;
 
-                case 4: // backa
+                case 4: 
                     _directionContext.SetStrategy(_reverseStrategy);
                     break;
 
-                case 5: // rasta
+                case 5: 
                     currentStatus.EnergyValue = MaxEnergy;
                     return currentStatus;
 
-                case 6: // tanka
+                case 6: 
                     currentStatus.GasValue = MaxGas;
                     return currentStatus;
 
-                case 8: // Äta (VG-krav)
+                case 8: 
                     currentStatus.HungerValue = 0;
                     return currentStatus;
 
-                case 7: // avsluta
+                case 7: 
                     return currentStatus;
 
                 default:
@@ -107,6 +116,8 @@ namespace DataLogicLibrary.Services
 
             return currentStatus;
         }
+
+
     }
 }
 

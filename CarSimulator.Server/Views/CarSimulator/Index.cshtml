@@ -43,6 +43,14 @@
                 <li>Hunger: @Model.CurrentStatus.HungerValue</li>
             </ul>
 
+            
+            @if (Model.CurrentStatus.GasValue == 0)
+            {
+                <p class="status-message-warning">
+                    🚫 The car is out of gas! You must refuel before you can drive.
+                </p>
+            }
+
             @if (!string.IsNullOrEmpty(Model.DriverStatusMessage))
             {
                 <p class="status-message-warning">
@@ -98,11 +106,12 @@
                     <form asp-action="Index" method="post">
                         <label for="SelectedAction">Select an action:</label>
                         <select asp-for="SelectedAction" class="form-select" required>
+
                             <option value="">-- Choose an option --</option>
-                            <option value="1">Turn left</option>
-                            <option value="2">Turn right</option>
-                            <option value="3">Drive forward</option>
-                            <option value="4">Reverse</option>
+                            <option value="1" disabled="@(Model.CurrentStatus.GasValue == 0)">Turn left</option>
+                            <option value="2" disabled="@(Model.CurrentStatus.GasValue == 0)">Turn right</option>
+                            <option value="3" disabled="@(Model.CurrentStatus.GasValue == 0)">Drive forward</option>
+                            <option value="4" disabled="@(Model.CurrentStatus.GasValue == 0)">Reverse</option>
                             <option value="5">Take a rest</option>
                             <option value="6">Refuel the car</option>
                             <option value="7">Exit</option>
