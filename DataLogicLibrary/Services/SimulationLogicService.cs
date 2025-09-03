@@ -32,7 +32,7 @@ namespace DataLogicLibrary.Services
 
         private const int MaxEnergy = 20;
         private const int MaxGas = 20;
-        private const int MaxHunger = 16;   // VG-del: spel över om hunger >= 16
+        private const int MaxHunger = 16;   // spel över om hunger >= 16
 
         public StatusDTO PerformAction(int userInput, StatusDTO currentStatus)
         {
